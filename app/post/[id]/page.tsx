@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -11,7 +11,7 @@ interface Post {
   createdAt: string;
 }
 
-export default function PostDetail() {
+function PostDetailContent() {
   const { id } = useParams();
   const router = useRouter();
   const [post, setPost] = useState<Post | null>(null);
@@ -136,5 +136,13 @@ export default function PostDetail() {
         </div>
       )}
     </main>
+  );
+}
+
+export default function PostDetail() {
+  return (
+    <Suspense fallback={<p className="container mt-4">Loading...</p>}>
+      <PostDetailContent />
+    </Suspense>
   );
 }
